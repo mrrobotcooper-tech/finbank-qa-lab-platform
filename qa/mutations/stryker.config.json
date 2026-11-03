@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/core/schema/stryker-schema.json",
+  "mutate": ["apps/frontend/src/lib/money.ts"],
+  "testRunner": "command",
+  "commandRunner": {
+    "command": "npm --prefix apps/frontend run test -- src/lib/money.test.ts"
+  },
+  "reporters": ["clear-text", "html"],
+  "htmlReporter": { "fileName": "qa/reports/mutation/stryker.html" },
+  "timeoutMS": 60000,
+  "concurrency": 1,
+  "dryRunTimeoutMinutes": 2
+}

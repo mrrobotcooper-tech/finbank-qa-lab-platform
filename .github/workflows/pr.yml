@@ -1,0 +1,80 @@
+name: PR
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint-typecheck:
+    name: lint-typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: make lint
+      - run: make typecheck
+      - run: python3 scripts/ci/require-jobs.py --self-test
+
+  unit:
+    name: unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: junit-unit
+          path: qa/reports/junit-*.xml
+          if-no-files-found: warn
+
+  secrets:
+    name: secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: make qa-secrets
+
+  qa-critical:
+    name: qa-critical
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - name: Critical path (API smoke + E2E Chromium)
+        run: make qa-critical
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-critical-reports
+          path: |
+            qa/reports/junit.xml
+            qa/reports/allure-results
+            qa/reports/playwright
+            qa/reports/test-results
+          if-no-files-found: warn
+
+  quality-gate:
+    name: quality-gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [lint-typecheck, unit, secrets, qa-critical]
+    steps:
+      - uses: actions/checkout@v4
+      - name: NFR-CI-004 fail-closed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python3 scripts/ci/require-jobs.py

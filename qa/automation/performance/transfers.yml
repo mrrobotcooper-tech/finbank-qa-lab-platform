@@ -1,0 +1,19 @@
+config:
+  target: "http://127.0.0.1:8000"
+  phases:
+    - duration: 8
+      arrivalRate: 1
+      name: warmup
+    - duration: 20
+      arrivalRate: 3
+      name: sustain
+  http:
+    timeout: 20
+  processor: "./processor.cjs"
+scenarios:
+  - name: post-transfer-one-cent
+    flow:
+      - function: "authenticate"
+      - post:
+          url: "/api/v1/transfers"
+          beforeRequest: "setIdempotency"

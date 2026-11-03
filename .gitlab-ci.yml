@@ -1,0 +1,201 @@
+# Espejo portable de GitHub Actions (ADR-0008).
+# Gates: los mismos Make targets. NFR-CI-004 via scripts/ci/require-jobs.py.
+
+stages:
+  - static
+  - unit
+  - qa
+  - gate
+
+variables:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+  FF_NETWORK_PER_BUILD: "true"
+
+.venv_apps:
+  image: python:3.12-bookworm
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq nodejs npm
+    - python -m venv apps/backend/.venv
+    - apps/backend/.venv/bin/pip install -U pip
+    - apps/backend/.venv/bin/pip install -e "./apps/backend[dev]"
+    - export PATH="$PWD/apps/backend/.venv/bin:$PATH"
+    - npm --prefix apps/frontend ci
+    - npm --prefix qa ci
+
+.docker_compose:
+  image: docker:24-cli
+  services:
+    - name: docker:24-dind
+      alias: docker
+      command: ["--tls=false"]
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache docker-cli-compose make bash git python3
+    - bash scripts/ci/bootstrap-env.sh
+
+lint-typecheck:
+  stage: static
+  extends: .venv_apps
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - export PATH="$PWD/apps/backend/.venv/bin:$PATH"
+    - make lint
+    - make typecheck
+    - python3 scripts/ci/require-jobs.py --self-test
+
+unit:
+  stage: unit
+  extends: .venv_apps
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - export PATH="$PWD/apps/backend/.venv/bin:$PATH"
+    - bash scripts/ci/bootstrap-env.sh
+    - make test
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/junit-*.xml
+    expire_in: 7 days
+
+secrets:
+  stage: static
+  image: python:3.12-bookworm
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - apt-get update -qq && apt-get install -y -qq git
+    - make qa-secrets
+
+qa-critical:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-critical
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/
+    expire_in: 7 days
+
+qa-regression:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-regression
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/
+    expire_in: 7 days
+
+qa-data:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-data
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/junit.xml
+    expire_in: 7 days
+
+qa-a11y:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-a11y
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/
+    expire_in: 7 days
+
+qa-bdd:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-bdd
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/cucumber-junit.xml
+    expire_in: 7 days
+
+qa-security:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-security
+
+qa-zap:
+  stage: qa
+  extends: .docker_compose
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - make qa-zap
+  artifacts:
+    when: always
+    paths:
+      - qa/reports/zap/
+    expire_in: 7 days
+
+quality-gate-pr:
+  stage: gate
+  image: python:3.12-bookworm
+  needs: [lint-typecheck, unit, secrets, qa-critical]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - echo "NFR-CI-004 fail-closed. GitLab only starts this job if needs succeeded."
+    - python3 scripts/ci/require-jobs.py --self-test
+
+quality-gate-main:
+  stage: gate
+  image: python:3.12-bookworm
+  needs: [lint-typecheck, unit, secrets, qa-regression, qa-data, qa-a11y, qa-bdd]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - echo "NFR-CI-004 main. needs required without allow_failure."
+    - python3 scripts/ci/require-jobs.py --self-test
+
+quality-gate-nightly:
+  stage: gate
+  image: python:3.12-bookworm
+  needs: [qa-security, qa-zap]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  script:
+    - echo "NFR-CI-004 nightly. security and ZAP are gates. deps is not."
+    - python3 scripts/ci/require-jobs.py --self-test

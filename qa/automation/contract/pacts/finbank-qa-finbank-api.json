@@ -1,0 +1,35 @@
+{
+  "consumer": { "name": "finbank-qa" },
+  "provider": { "name": "finbank-api" },
+  "interactions": [
+    {
+      "description": "a liveness request",
+      "providerState": "API is live",
+      "request": {
+        "method": "GET",
+        "path": "/health"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "status": "ok",
+          "service": "finbank",
+          "environment": "dev",
+          "correlation_id": ""
+        },
+        "matchingRules": {
+          "$.body.status": { "match": "type" },
+          "$.body.service": { "match": "type" },
+          "$.body.environment": { "match": "type" },
+          "$.body.correlation_id": { "match": "type" }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": { "version": "2.0.0" }
+  }
+}

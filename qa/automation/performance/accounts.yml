@@ -1,0 +1,19 @@
+config:
+  target: "http://127.0.0.1:8000"
+  phases:
+    - duration: 8
+      arrivalRate: 5
+      name: warmup
+    - duration: 20
+      arrivalRate: 20
+      name: sustain
+  http:
+    timeout: 15
+  processor: "./processor.cjs"
+scenarios:
+  - name: list-accounts
+    flow:
+      - function: "authenticate"
+      - get:
+          url: "/api/v1/accounts"
+          beforeRequest: "setBearer"

@@ -1,0 +1,35 @@
+name: setup-apps
+description: Python 3.12, Node 22, venv backend, npm frontend y qa (sin browsers Playwright en el host)
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+        cache-dependency-path: apps/backend/pyproject.toml
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: npm
+        cache-dependency-path: |
+          apps/frontend/package-lock.json
+          qa/package-lock.json
+    - name: Backend venv
+      shell: bash
+      run: |
+        python -m venv apps/backend/.venv
+        apps/backend/.venv/bin/pip install -U pip
+        apps/backend/.venv/bin/pip install -e "./apps/backend[dev]"
+        echo "${GITHUB_WORKSPACE}/apps/backend/.venv/bin" >> "$GITHUB_PATH"
+    - name: Frontend npm
+      shell: bash
+      run: npm ci
+      working-directory: apps/frontend
+    - name: QA npm (host, sin browsers)
+      shell: bash
+      env:
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+      run: npm ci
+      working-directory: qa

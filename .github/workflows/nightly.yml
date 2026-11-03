@@ -1,0 +1,118 @@
+name: nightly
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: nightly
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  qa-security:
+    name: qa-security
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-security
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-security-reports
+          path: qa/reports/junit.xml
+          if-no-files-found: warn
+
+  qa-zap:
+    name: qa-zap
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-zap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-zap-reports
+          path: qa/reports/zap
+          if-no-files-found: warn
+
+  qa-browsers:
+    name: qa-browsers
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      QA_BROWSERS: full
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-smoke
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-browsers-reports
+          path: qa/reports/junit.xml
+          if-no-files-found: warn
+
+  qa-perf:
+    name: qa-perf
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-perf
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-perf-reports
+          path: qa/reports/perf
+          if-no-files-found: warn
+
+  qa-advanced:
+    name: qa-advanced
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-lab-detect
+      - run: make qa-pact
+      - run: make qa-mutate
+
+  qa-deps:
+    name: qa-deps
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-deps
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-deps-reports
+          path: qa/reports/deps
+          if-no-files-found: warn
+
+  quality-gate:
+    name: quality-gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [qa-security, qa-zap, qa-browsers, qa-perf, qa-advanced]
+    steps:
+      - uses: actions/checkout@v4
+      - name: NFR-CI-004 fail-closed (deps es informativo)
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python3 scripts/ci/require-jobs.py

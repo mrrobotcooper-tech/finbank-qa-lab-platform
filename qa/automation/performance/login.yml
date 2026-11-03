@@ -1,0 +1,19 @@
+config:
+  target: "http://127.0.0.1:8000"
+  phases:
+    - duration: 10
+      arrivalRate: 2
+      name: warmup
+    - duration: 20
+      arrivalRate: 10
+      name: sustain
+  http:
+    timeout: 15
+scenarios:
+  - name: login-ana
+    flow:
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "ana@finbank.test"
+            password: "Customer1!"

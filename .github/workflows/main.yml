@@ -1,0 +1,126 @@
+name: main
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint-typecheck:
+    name: lint-typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: make lint
+      - run: make typecheck
+      - run: python3 scripts/ci/require-jobs.py --self-test
+
+  unit:
+    name: unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-apps
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: junit-unit
+          path: qa/reports/junit-*.xml
+          if-no-files-found: warn
+
+  secrets:
+    name: secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: make qa-secrets
+
+  qa-regression:
+    name: qa-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-regression
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-regression-reports
+          path: |
+            qa/reports/junit.xml
+            qa/reports/allure-results
+            qa/reports/playwright
+          if-no-files-found: warn
+
+  qa-data:
+    name: qa-data
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-data
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-data-reports
+          path: qa/reports/junit.xml
+          if-no-files-found: warn
+
+  qa-a11y:
+    name: qa-a11y
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-a11y
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-a11y-reports
+          path: |
+            qa/reports/junit.xml
+            qa/reports/axe
+          if-no-files-found: warn
+
+  qa-bdd:
+    name: qa-bdd
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ci/bootstrap-env.sh
+      - run: make qa-bdd
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-bdd-reports
+          path: qa/reports/cucumber-junit.xml
+          if-no-files-found: warn
+
+  quality-gate:
+    name: quality-gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [lint-typecheck, unit, secrets, qa-regression, qa-data, qa-a11y, qa-bdd]
+    steps:
+      - uses: actions/checkout@v4
+      - name: NFR-CI-004 fail-closed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python3 scripts/ci/require-jobs.py

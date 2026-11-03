@@ -1,0 +1,37 @@
+{
+  "name": "finbank-qa",
+  "private": true,
+  "version": "0.9.0",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep \"@smoke|@regression|@critical\"",
+    "test:data": "playwright test --project data",
+    "test:a11y": "playwright test --project a11y",
+    "test:security": "playwright test --project security",
+    "test:bdd": "node --import tsx node_modules/@cucumber/cucumber/bin/cucumber.js",
+    "test:perf": "node scripts/run-perf.mjs",
+    "test:pact": "tsx automation/contract/verify-provider.ts",
+    "lint": "eslint automation playwright.config.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "allure-playwright": "3.2.1",
+    "artillery": "^2.0.23",
+    "@axe-core/playwright": "^4.10.2",
+    "axe-core": "^4.10.2",
+    "@cucumber/cucumber": "^11.2.0",
+    "@eslint/js": "^9.17.0",
+    "@playwright/test": "1.56.1",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "pg": "^8.13.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0",
+    "zod": "^3.24.1"
+  }
+}
