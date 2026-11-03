@@ -4,7 +4,7 @@
 
 ## Contexto
 
-El módulo de Data Testing debe demostrar que QA verifica requisitos aunque no exista un endpoint. Inventar `GET /audit` para “hacer fácil el test” destruye ese relato.
+El módulo de Data Testing debe demostrar que QA verifica requisitos aunque no exista un endpoint. Inventar `GET /audit` para “hacer fácil el test” invalida ese ejercicio del laboratorio.
 
 ## Decisión
 

@@ -1,8 +1,8 @@
 # FinBank QA
 
-Framework de Quality Engineering **independiente del SUT**. Habla HTTP y UI. No importa código de `apps/`.
+Framework del laboratorio de QA, **independiente del SUT**. Habla HTTP y UI. No importa código de `apps/`.
 
-Demo y evidencia de cierre: [docs/onboarding/demo.md](../docs/onboarding/demo.md), [docs/evidence/2026-11-03.md](../docs/evidence/2026-11-03.md).
+Recorrido y evidencia: [docs/onboarding/demo.md](../docs/onboarding/demo.md), [docs/evidence/2026-11-03.md](../docs/evidence/2026-11-03.md).
 
 ## Fases 8–9 — performance y advanced
 

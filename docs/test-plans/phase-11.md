@@ -1,14 +1,14 @@
-# Plan táctico — Fase 11 Portfolio
+# Plan táctico — Fase 11 Documentación del laboratorio
 
-**DoD:** README de demo, guía de entrevista, troubleshooting, recorte de evidencias **generadas**.
+**DoD:** README del laboratorio, recorrido, troubleshooting, recorte de evidencias **generadas**.
 
 ## Entregables
 
 | Pieza | Dónde |
 | --- | --- |
 | Landing | `README.md` |
-| Demo 15 min | [docs/onboarding/demo.md](../onboarding/demo.md) |
-| Entrevista | [docs/onboarding/interview-guide.md](../onboarding/interview-guide.md) |
+| Recorrido | [docs/onboarding/demo.md](../onboarding/demo.md) |
+| FAQ del lab | [docs/onboarding/lab-faq.md](../onboarding/lab-faq.md) |
 | Troubleshooting | [docs/onboarding/troubleshooting.md](../onboarding/troubleshooting.md) |
 | Evidencia | [docs/evidence/2026-11-03.md](../evidence/2026-11-03.md) |
 | Limitaciones | [docs/known-limitations.md](../known-limitations.md) |

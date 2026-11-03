@@ -29,7 +29,7 @@
 
 ## Criterios para aprobar
 
-- El SUT es suficientemente rico para QA Senior.
+- El SUT es suficientemente rico para un laboratorio de QA.
 - El framework QA queda independiente.
 - Hay al menos un requisito crítico verificable solo con SQL.
 - Las fases son incrementales y verificables.

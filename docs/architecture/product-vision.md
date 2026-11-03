@@ -3,15 +3,15 @@
 **Documento:** VIS-001  
 **Fase:** 0  
 **Estado:** En revisión  
-**Audiencia:** arquitectura, QA, ingeniería, evaluadores técnicos
+**Audiencia:** arquitectura, QA, ingeniería
 
 ## 1. Declaración de visión
 
-FinBank es una plataforma bancaria digital ficticia que funciona como **System Under Test** de un ecosistema de Quality Engineering de nivel Senior.
+FinBank es un **laboratorio de Quality Assurance**: una plataforma bancaria digital ficticia que funciona como **System Under Test** de un ecosistema de pruebas independiente.
 
 El producto simula la operación core de un banco retail digital: identidad, cuentas, transferencias, pagos, administración, notificaciones y auditoría. El ecosistema QA no es un conjunto de scripts colgados al final: es una plataforma paralela, independiente del código de aplicación, capaz de diseñar estrategia, automatizar, investigar defectos, validar datos sin depender de APIs, medir performance, evaluar seguridad y accesibilidad, y gobernar calidad en CI/CD.
 
-FinBank debe poder presentarse en GitHub y en entrevistas técnicas como evidencia de que un Senior QA Automation Engineer puede:
+Este laboratorio existe para que se pueda:
 
 1. Construir un SUT realista, no un CRUD de demostración.
 2. Diseñar una estrategia de testing, no solamente automatizar casos existentes.
@@ -21,7 +21,7 @@ FinBank debe poder presentarse en GitHub y en entrevistas técnicas como evidenc
 
 ## 2. Problema que resuelve
 
-Los portfolios de QA suelen pecar de uno de estos extremos:
+Los laboratorios de QA suelen pecar de uno de estos extremos:
 
 - Colecciones de tests Playwright contra un sitio público ajeno, sin control del SUT.
 - Demos frontend sin reglas financieras, sin ledger, sin auditoría y sin datos.
@@ -39,13 +39,12 @@ FinBank evita esos tres fallos. El SUT es propio, controlable y defectuoso a pro
 | `SUPPORT` | Consultar usuarios y operaciones; no mueve dinero ni cambia roles. |
 | `ADMIN` | Bloquear cuentas, gestionar roles, ver indicadores y auditoría operativa. |
 
-### 3.2 Usuarios del ecosistema (reales, fuera de FinBank)
+### 3.2 Usuarios del laboratorio (fuera de FinBank)
 
 | Perfil | Intención |
 | --- | --- |
-| Ingeniero QA / SDET | Ejecutar, extender y demostrar el framework. |
-| Entrevistador técnico | Evaluar profundidad, no solo cobertura de UI. |
-| El autor del portfolio | Explicar decisiones, trade-offs y evidencia. |
+| Ingeniero QA / SDET | Ejecutar, extender y operar el framework. |
+| Quien usa el laboratorio | Recorrer el SUT, las pruebas y la evidencia. |
 
 ## 4. Principios de producto
 
@@ -71,7 +70,7 @@ El valor de FinBank no es “tener un login”. Es poder responder, con evidenci
 
 La visión se considera cumplida cuando, al cierre de la Fase 11:
 
-- Un evaluador puede clonar, levantar el entorno y ejecutar al menos smoke, API, un flujo E2E y una validación SQL de reconciliación.
+- Se puede clonar, levantar el entorno y ejecutar al menos smoke, API, un flujo E2E y una validación SQL de reconciliación.
 - Existe RTM para requisitos críticos, con tests y justificación de huecos.
 - El Defect Injection Lab tiene catálogo, activación controlada y tests que fallan cuando el defecto está activo.
 - Hay reportes Allure/JUnit, no capturas inventadas.
@@ -79,4 +78,4 @@ La visión se considera cumplida cuando, al cierre de la Fase 11:
 
 ## 7. Fuera de la visión
 
-FinBank no pretende ser un core banking de producción, un neobank lanzable, ni una plataforma multi-país con FX, créditos, inversiones o cumplimiento regulatorio real (BCRA, PCI-DSS productivo, SOC2). Es un SUT de ingeniería de calidad con fidelidad suficiente para que las pruebas importen.
+FinBank no pretende ser un core banking de producción, un neobank lanzable, ni una plataforma multi-país con FX, créditos, inversiones o cumplimiento regulatorio real (BCRA, PCI-DSS productivo, SOC2). Es un laboratorio de ingeniería de calidad con fidelidad suficiente para que las pruebas importen.

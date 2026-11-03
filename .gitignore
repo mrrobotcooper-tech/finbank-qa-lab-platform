@@ -27,3 +27,4 @@ qa/reports/*
 .vscode/
 .cursor/
 *.sqlite
+GUIA-LOCAL-LABORATORIO.md

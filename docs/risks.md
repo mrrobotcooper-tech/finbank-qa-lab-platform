@@ -48,7 +48,7 @@ Detalle en [adr/](architecture/adr/).
 | OpenTelemetry además de logs/métricas | Fase 8 |
 | Cookie vs header para access token (ADR-0003: access en memoria, refresh cookie) | Solo se reabre con hallazgo de seguridad |
 
-## 4. Amenazas a la honestidad del portfolio
+## 4. Amenazas a la honestidad del laboratorio
 
 - README que afirma módulos no ejecutables.
 - Tests que asertan status 200 y nada más.

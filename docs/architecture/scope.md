@@ -1,4 +1,4 @@
-# Alcance — FinBank QA Platform
+# Alcance — Laboratorio de QA FinBank
 
 **Documento:** SCO-001  
 **Fase:** 0  
@@ -97,10 +97,10 @@ Los 12 módulos principales y las 7 especializaciones avanzadas del prompt maest
 | Tema | Motivo | Reevaluación |
 | --- | --- | --- |
 | Reversa de transferencias | Complejidad de compensación; primero el camino feliz y rechazo | Fase 2 tardía si el ledger está sólido |
-| Multi-tenant / sucursales | No aporta al relato QA | Fuera |
+| Multi-tenant / sucursales | No aporta profundidad al laboratorio QA | Fuera |
 | FX | Introduce dominio entero | Fuera de v1 |
 | Kubernetes manifests | Compose cubre reproducibilidad local/CI | Fase 11 opcional |
-| OpenTelemetry traces distribuidas | Correlation ID + logs + métricas alcanzan el relato; traces son valor añadido | Fase 8–10 si hay margen |
+| OpenTelemetry traces distribuidas | Correlation ID + logs + métricas cubren el laboratorio; traces son valor añadido | Fase 8–10 si hay margen |
 
 ## 6. Definición de MVP por fase
 
@@ -108,4 +108,4 @@ El MVP de **producto bancario** se alcanza al cierre de la Fase 2: un cliente pu
 
 El MVP de **plataforma QA** se alcanza al cierre de la Fase 4: hay framework, E2E, API y smoke en local/Docker.
 
-La visión de documentación de portfolio se cubre en Fase 11 (`docs/onboarding/`, `docs/evidence/`). Kubernetes sigue fuera de v1.
+La documentación del laboratorio se cubre en Fase 11 (`docs/onboarding/`, `docs/evidence/`). Kubernetes sigue fuera de v1.

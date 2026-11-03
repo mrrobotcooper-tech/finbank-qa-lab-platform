@@ -1,14 +1,14 @@
-# Guía de entrevista
+# FAQ del laboratorio
 
-Para el autor del portfolio y para quien evalúa. Las respuestas apuntan a ADRs y tests, no a eslóganes.
+Decisiones del laboratorio de QA: cada respuesta apunta a un ADR o a un test ejecutable, no a un eslogan.
 
-## Cómo abrir (30 s)
+## Recorrido rápido
 
-> FinBank es un SUT bancario ficticio más un framework QA independiente. El valor no es el login: es poder mostrar ledger, authz, un lab de defectos fail-closed y un quality gate que no se puede pintar de verde.
+FinBank es un SUT bancario ficticio más un framework QA independiente. El valor no es el login: es poder ejercitar ledger, autorización, un lab de defectos fail-closed y un quality gate que no se puede pintar de verde.
 
-Demo: [demo.md](demo.md).
+Recorrido guiado: [demo.md](demo.md).
 
-## Preguntas que conviene provocar
+## Preguntas frecuentes
 
 | Pregunta | Dónde está la respuesta |
 | --- | --- |
@@ -23,7 +23,7 @@ Demo: [demo.md](demo.md).
 | ¿Axe = WCAG? | No. [NFR-A11Y-004](../accessibility/README.md) |
 | ¿Un job skipped deja el PR verde? | No. `scripts/ci/require-jobs.py` |
 
-## Decisiones que hay que poder defender
+## Decisiones del laboratorio
 
 1. **Dinero en enteros.** Un float en JS/Python es un defecto de diseño, no un detalle.
 2. **Pirámide:** dominio en Pytest; la UI no reimplementa NSF.
@@ -31,14 +31,14 @@ Demo: [demo.md](demo.md).
 4. **Outbox, no publish en el request.** Chaos Rabbit: transfer COMPLETED igual (FR-NTF-003).
 5. **Presupuestos medidos.** Bajar RPS es más honesto que inventar p95.
 
-## Lo que no hay que decir
+## Lo que este laboratorio no afirma
 
 - “Cobertura 90 %”.
 - “Mutation score X %” (solo dos mutantes de muestra, ambos KILLED).
 - “ZAP limpio” (hay 6 alertas; el gate es 0 High/Critical).
 - “Pipeline de GitHub verde” sin abrir el run real en [finbank-qa-lab-platform](https://github.com/mrrobotcooper-tech/finbank-qa-lab-platform/actions).
-- “PRODUCTO listo para un banco real”.
+- Producto listo para un banco real.
 
-## Ejercicio si piden código
+## Cómo comprobar que el lab detecta defectos
 
 Abrir `qa/defect-lab/catalog.md` y `apps/backend/src/finbank/domain/transfers.py` (`defect_on("DEF-FUN-001")`). Correr el detector NSF OFF y ON. Eso demuestra que la suite **falla a propósito**.

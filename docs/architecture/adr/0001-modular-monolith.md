@@ -5,7 +5,7 @@
 
 ## Contexto
 
-El SUT debe parecer un sistema financiero real (API, worker, colas, caché, mocks) sin convertir el portfolio en un ejercicio de Kubernetes.
+El SUT debe parecer un sistema financiero real (API, worker, colas, caché, mocks) sin convertir el laboratorio en un ejercicio de Kubernetes.
 
 ## Alternativas
 
@@ -13,7 +13,7 @@ El SUT debe parecer un sistema financiero real (API, worker, colas, caché, mock
 | --- | --- | --- |
 | Microservicios por dominio | Parece “enterprise” | Sagas, contratos explosivos, data testing fragmentado |
 | Monolito clásico sin worker | Simple | No hay asincronía real que probar |
-| **Monolito modular + worker + mocks** | Atómica el dinero; chaos y async reales | Menos “wow” de diagrama |
+| **Monolito modular + worker + mocks** | Atómica el dinero; chaos y async reales | Diagrama menos “enterprise” |
 
 ## Decisión
 

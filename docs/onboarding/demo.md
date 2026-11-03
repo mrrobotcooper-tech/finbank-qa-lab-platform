@@ -1,8 +1,8 @@
-# Demo de 15 minutos
+# Recorrido del laboratorio
 
-FinBank es un banco **ficticio**. Nada de esto es dinero real.
+FinBank es un banco **ficticio**. Nada de esto es dinero real. Este recorrido ejercita el SUT y las pruebas que lo rodean.
 
-## Antes (2 min)
+## Antes
 
 ```bash
 cp .env.example .env   # si falta
@@ -13,7 +13,7 @@ make ready
 Web: http://localhost:5173 · API: http://localhost:8000/docs  
 Ana: `ana@finbank.test` / `Customer1!` · destino Bruno CBU `32200000000000000003`.
 
-## Guion
+## Pasos
 
 1. **Login Ana** → dashboard con saldos enteros (centavos, no float).
 2. **Transferencia 1,00 ARS** a Bruno. Completada. Copiar el id.
@@ -44,7 +44,7 @@ Ana: `ana@finbank.test` / `Customer1!` · destino Bruno CBU `3220000000000000000
 
    Debe imprimir NFR-CI-004 y salir 1.
 
-## Si hay 5 minutos más
+## Más ejercicios
 
 - Chaos: `make qa-chaos` (Redis 503, Rabbit no bloquea COMPLETED).
 - Artillery: `make qa-perf` y abrir [docs/performance/](../performance/).

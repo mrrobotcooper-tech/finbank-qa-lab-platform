@@ -18,7 +18,7 @@
 8 Performance        ✓ verificada
 9 Advanced           ✓ verificada
 10 CI/CD             ✓ verificada
-11 Portfolio         ✓ verificada
+11 Docs del lab      ✓ verificada
 ```
 
 ## Fase 0 — Discovery
@@ -88,11 +88,11 @@ Workflows PR/main/nightly. GitLab equivalente. Quality gate: unit + API smoke + 
 
 **DoD:** un fallo de test crítico pone la pipeline en rojo. Documentado. **Cumplido** (`scripts/ci/require-jobs.py`, job `quality-gate`, `.gitlab-ci.yml` needs).
 
-## Fase 11 — Portfolio
+## Fase 11 — Documentación del laboratorio
 
-README de demo, interview guide, troubleshooting, recorte de evidencias **generadas**, no inventadas.
+README del laboratorio, recorrido, troubleshooting, recorte de evidencias **generadas**, no inventadas.
 
-**DoD:** evaluador puede clonar, levantar, smoke/E2E/SQL; RTM; lab dual OFF/ON; docs explican *por qué*. **Cumplido** (demo, entrevista, troubleshooting, [evidencia 2026-11-03](evidence/2026-11-03.md)). El remoto GitHub/GitLab queda como paso del autor al publicar el repo.
+**DoD:** se puede clonar, levantar, smoke/E2E/SQL; RTM; lab dual OFF/ON; docs explican *por qué*. **Cumplido** (recorrido, FAQ, troubleshooting, [evidencia 2026-11-03](evidence/2026-11-03.md)). El remoto GitHub/GitLab queda como paso al publicar el repo.
 
 ## Dependencias entre fases
 

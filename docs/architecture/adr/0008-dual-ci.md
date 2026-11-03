@@ -4,7 +4,7 @@
 
 ## Contexto
 
-El portfolio debe mostrar ambas plataformas sin mantener dos verdades de negocio.
+El laboratorio debe poder ejecutarse en ambas plataformas sin mantener dos verdades de negocio.
 
 ## Decisión
 

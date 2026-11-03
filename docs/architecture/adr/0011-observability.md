@@ -10,7 +10,7 @@ El SUT debe ser investigable (correlation ID, logs, métricas) sin convertir Fas
 
 Fase 1–2: `structlog` JSON, header `X-Correlation-ID`, Prometheus `/metrics`, Grafana provisionado, healthchecks.
 
-OpenTelemetry traces: opcional a partir de Fase 8 si el relato de performance/chaos lo necesita. No es bloqueante.
+OpenTelemetry traces: opcional a partir de Fase 8 si el laboratorio de performance/chaos lo necesita. No es bloqueante.
 
 ## Consecuencias
 

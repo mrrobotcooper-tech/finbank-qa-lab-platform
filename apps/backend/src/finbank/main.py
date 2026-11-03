@@ -83,7 +83,7 @@ def create_app(
     application = FastAPI(
         title="FinBank API",
         version="0.2.0",
-        description="Fictional digital banking System Under Test.",
+        description="Fictional digital banking System Under Test for a QA laboratory.",
         lifespan=lifespan,
         docs_url="/docs",
         redoc_url="/redoc",

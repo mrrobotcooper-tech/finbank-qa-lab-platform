@@ -4,7 +4,7 @@
 
 ## Contexto
 
-Los defectos intencionales demuestran que la suite detecta problemas reales. Si se activan por error, invalidan el producto y el portfolio.
+Los defectos intencionales demuestran que la suite detecta problemas reales. Si se activan por error, invalidan el producto y el laboratorio.
 
 ## Decisión
 

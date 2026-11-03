@@ -4,9 +4,9 @@
 
 ## Contexto
 
-Playwright Test es el mejor runner para E2E/API/a11y. El relato BDD Senior exige Gherkin ejecutable, no comentarios encima de un `test()`.
+Playwright Test es el mejor runner para E2E/API/a11y. El laboratorio BDD exige Gherkin ejecutable, no comentarios encima de un `test()`.
 
-`playwright-bdd` unifica runners pero acopla el estilo Gherkin al de Playwright y es menos reconocible como “Cucumber” en entrevistas.
+`playwright-bdd` unifica runners pero acopla el estilo Gherkin al de Playwright y deja de ser Cucumber independiente.
 
 ## Alternativas
 

@@ -1,10 +1,10 @@
-# FinBank — QA Engineering Platform
+# FinBank — Laboratorio de QA
 
-Banco digital **ficticio** + plataforma de Quality Assurance de nivel Senior. No procesa dinero real ni PII real. El SUT existe para que las pruebas importen: ledger, authz, datos sin API, lab de defectos y un pipeline que no se puede pintar de verde.
+Laboratorio de Quality Assurance sobre un banco digital **ficticio**. No procesa dinero real ni PII real. El SUT existe para que las pruebas importen: ledger, autorización, datos sin API, lab de defectos y un pipeline que no se puede pintar de verde.
 
 > **Fases 0–11 cerradas en local el 2026-11-03.**  
 > Repo: [mrrobotcooper-tech/finbank-qa-lab-platform](https://github.com/mrrobotcooper-tech/finbank-qa-lab-platform)  
-> Demo: [docs/onboarding/demo.md](docs/onboarding/demo.md) · Evidencia: [docs/evidence/2026-11-03.md](docs/evidence/2026-11-03.md) · Entrevista: [docs/onboarding/interview-guide.md](docs/onboarding/interview-guide.md)
+> Recorrido: [docs/onboarding/demo.md](docs/onboarding/demo.md) · Evidencia: [docs/evidence/2026-11-03.md](docs/evidence/2026-11-03.md) · FAQ del lab: [docs/onboarding/lab-faq.md](docs/onboarding/lab-faq.md)
 
 ## Arranque
 
@@ -32,14 +32,14 @@ make ready
 
 Guía: [docs/onboarding/setup.md](docs/onboarding/setup.md) · fallos: [troubleshooting](docs/onboarding/troubleshooting.md)
 
-## Qué demuestra (y qué no)
+## Qué cubre este laboratorio (y qué no)
 
 | Sí | No |
 | --- | --- |
 | Ledger como SoT; SQL de audit sin GET `/audit` | Un neobank lanzable |
-| Defect lab 7/7 fail-closed | Flags en el demo (`APP_ENV=dev`) |
+| Defect lab 7/7 fail-closed | Flags en el entorno demo (`APP_ENV=dev`) |
 | Artillery medido y presupuestos **bajados** | SLAs de industria |
-| Gate CI: job crítico failed/skipped → rojo | “Pipeline GitHub verde” sin remoto |
+| Gate CI: job crítico failed/skipped → rojo | Pipeline verde sin el run real de Actions |
 | Axe en 4 rutas, 0 violaciones | Certificación WCAG 2.2 AA |
 
 Limitaciones explícitas: [docs/known-limitations.md](docs/known-limitations.md).
@@ -79,4 +79,4 @@ Suite completa: `qa-smoke`, `qa-regression`, `qa-bdd`, `qa-a11y`, `qa-security`,
 
 ## Licencia
 
-Producto ficticio, uso educativo y de portfolio. No conectar a sistemas bancarios reales.
+Producto ficticio, uso educativo y de laboratorio de QA. No conectar a sistemas bancarios reales.

@@ -10,4 +10,4 @@ Planes tácticos por ciclo.
 - [Fase 8](phase-8.md) — performance Artillery
 - [Fase 9](phase-9.md) — lab, pact, mutation, chaos, TDM
 - [Fase 10](phase-10.md) — CI/CD GitHub + GitLab
-- [Fase 11](phase-11.md) — portfolio, demo, evidencia
+- [Fase 11](phase-11.md) — documentación del laboratorio, recorrido, evidencia

@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 export function HomePage() {
   return (
     <article>
-      <h1>Banca digital ficticia para ingeniería de calidad</h1>
+      <h1>Banca digital ficticia para un laboratorio de QA</h1>
       <p className="lead">
-        FinBank es el System Under Test de una plataforma de QA. La Fase 2 cubre registro, sesión,
+        FinBank es el System Under Test de un laboratorio de QA. La Fase 2 cubre registro, sesión,
         cuentas, transferencias, pagos mock y bloqueo administrativo. No hay dinero real.
       </p>
       <ul className="feature-list">

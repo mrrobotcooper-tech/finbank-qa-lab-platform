@@ -1,6 +1,6 @@
 # Mutation sample
 
-Muestra acotada, no un score de portfolio inventado.
+Muestra acotada, no un score de mutación inventado.
 
 | Motor | Superficie | Cómo |
 | --- | --- | --- |

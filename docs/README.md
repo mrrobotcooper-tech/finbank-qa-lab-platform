@@ -1,10 +1,10 @@
-# Documentación FinBank
+# Documentación del laboratorio FinBank
 
 ## Empezar aquí
 
 - [Setup](onboarding/setup.md)
-- [Demo 15 min](onboarding/demo.md)
-- [Guía de entrevista](onboarding/interview-guide.md)
+- [Recorrido del laboratorio](onboarding/demo.md)
+- [FAQ del laboratorio](onboarding/lab-faq.md)
 - [Troubleshooting](onboarding/troubleshooting.md)
 - [Evidencia 2026-11-03](evidence/2026-11-03.md)
 - [Limitaciones](known-limitations.md)

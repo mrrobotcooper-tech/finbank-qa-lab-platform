@@ -1,6 +1,6 @@
 # Limitaciones conocidas (cierre Fase 11)
 
-Afirmar esto en una entrevista es más útil que ocultarlo.
+El laboratorio documenta lo que no cubre. Ocultarlo invalidaría la evidencia.
 
 | Tema | Estado |
 | --- | --- |

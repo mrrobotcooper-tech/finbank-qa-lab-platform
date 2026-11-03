@@ -133,10 +133,10 @@ make qa-critical
 
 Firefox/WebKit: `QA_BROWSERS=full make qa-smoke` (nightly).
 
-## Demo, entrevista y evidencia (Fase 11)
+## Recorrido, FAQ y evidencia (Fase 11)
 
-- [Demo 15 min](demo.md)
-- [Guía de entrevista](interview-guide.md)
+- [Recorrido del laboratorio](demo.md)
+- [FAQ del laboratorio](lab-faq.md)
 - [Troubleshooting](troubleshooting.md)
 - [Evidencia](../evidence/2026-11-03.md)
 - [Limitaciones](../known-limitations.md)
